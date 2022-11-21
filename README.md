@@ -2,6 +2,8 @@
 
 **Reposte facilement tes meilleurs fils Twitter sur Mastodon !**
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/89b9618b-7ae7-4cf1-ab7f-09a60751d16c/deploy-status)](https://app.netlify.com/sites/threadstodon/deploys)
+
 ---
 
 ## À propos
