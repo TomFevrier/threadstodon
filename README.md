@@ -53,13 +53,9 @@ npm install
 
 Dans un fichier `.env`, ajouter les variables d’environnement suivantes :
 ~~~
-# Identifiants Twitter
+# Identifiants de l’application Twitter
 VITE_TWITTER_CLIENT_ID=XXXXXXXXXX 
 VITE_TWITTER_BEARER_TOKEN=XXXXXXXXXX
-
-# Identifiants Mastodon
-VITE_MASTODON_CLIENT_ID=XXXXXXXXXX
-VITE_MASTODON_CLIENT_SECRET=XXXXXXXXXX
 
 # Confidentialité des pouets
 VITE_TOOT_VISIBILITY=public|unlisted|private|direct
