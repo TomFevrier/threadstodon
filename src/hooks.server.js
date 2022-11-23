@@ -9,6 +9,7 @@ export const handle = async ({ event, resolve }) => {
 	return await resolve(event);
 }
 
-export const handleError = () => {
+export const handleError = ({ error }) => {
+	console.error(error);
 	throw redirect(302, '/');
 }
