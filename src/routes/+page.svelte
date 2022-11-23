@@ -154,12 +154,13 @@
 			height: 3rem;
 			border-radius: 50%;
 			border: 4px solid transparent;
+			overflow: hidden;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			position: relative;
 			cursor: pointer;
-			transition: transform 100ms ease-out;
+			transition: all 100ms ease-out;
 
 			.fi-close-a {
 				position: absolute;
@@ -168,19 +169,7 @@
 				transform: translate(-50%, -50%);
 				font-size: 1.2rem;
 				opacity: 0;
-				z-index: 2;
-			}
-
-			&:hover {
-				transform: scale(1.1);
-
-				.fi-close-a {
-					opacity: 1;
-				}
-
-				.portrait, &::before {
-					opacity: 0.7;
-				}
+				z-index: 3;
 			}
 
 			.portrait {
@@ -200,6 +189,10 @@
 				background-color: $twitter;
 				border-color: $twitter;
 
+				&::after {
+					background-color: $twitter;
+				}
+
 				.logo {
 					width: 24px;
 				}
@@ -208,6 +201,10 @@
 			&.mastodon {
 				background-color: $mastodon;
 				border-color: $mastodon;
+
+				&::after {
+					background-color: $mastodon;
+				}
 
 				.logo {
 					width: 30px;
@@ -224,6 +221,26 @@
 					font-family: 'fontisto';
 					font-size: 1.6rem;
 					color: rgba(white, 0.5);
+				}
+
+				&::after {
+					content: "";
+					position: absolute;
+					inset: 0;
+					z-index: 2;
+					opacity: 0;
+				}
+			}
+
+			&:hover {
+				transform: scale(1.1);
+
+				.fi-close-a {
+					opacity: 1;
+				}
+
+				&::after {
+					opacity: 0.5;
 				}
 			}
 		}
