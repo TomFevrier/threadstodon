@@ -18,7 +18,7 @@ Il est également possible d’éditer le fil avant publication, en corrigeant l
 
 L’API de Twitter impose une limite de 900&nbsp;requêtes par utilisateur⋅rice et par fenêtre de 15&nbsp;min, ce qui ne devrait pas poser problème dans le cadre d’une utilisation normale. Du côté de Mastodon, la limite est de 300&nbsp;requêtes par utilisateur⋅rice et par fenêtre de 5&nbsp;min. En cas de problème, n’hésitez pas à réessayer un peu plus tard.
 	
-Certains tweets peuvent ne pas apparaître dans les résultats de recherche, car l’API de Twitter ne permet d’accéder qu’au 3200 derniers tweets de l’utilisateur⋅rice. Si le fil recherché est trop ancien, **il est également possible de copier-coller dans la barre de recherche l’URL du premier tweet d’un thread**. Pour retrouver le thread, utilisez les fonctionnalités de recherche avancée de Twitter (<code>from:pseudo recherche</code>).
+Certains tweets peuvent ne pas apparaître dans les résultats de recherche, car l’API de Twitter ne permet d’accéder qu’aux 3200 derniers tweets de l’utilisateur⋅rice. Si le fil recherché est trop ancien, **il est également possible de copier-coller dans la barre de recherche l’URL du premier tweet d’un thread**. Pour retrouver le thread, utilisez les fonctionnalités de recherche avancée de Twitter (<code>from:pseudo recherche</code>).
 	
 ### Politique de confidentialité
 	
