@@ -62,7 +62,7 @@ VITE_TOOT_VISIBILITY=public|unlisted|private|direct
 # Défaut : direct (pour éviter de spammer par erreur ses followers en phase de développement)
 ~~~
 
-`http://localhost:3000/auth/[twitter|mastodon]/callback` doivent être configurées comme URLs de redirection sur le portail développeur⋅se de Twitter et de Mastodon.
+`http://localhost:3000/auth/twitter/callback` doit être configurée comme URL de redirection sur le portail développeur⋅se de Twitter.
 
 
 ### Développement local
