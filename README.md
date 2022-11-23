@@ -87,7 +87,11 @@ npm run dev
 - `GET /auth/twitter/callback`: URL de redirection pour l’authentification OAuth de Twitter
 - `GET /auth/twitter/logout`: révocation de l’accès OAuth de Twitter
 - `GET /search`: recherche de tweets
-	- _Paramètres d’URL : `query` et `end_time` (pour la recherche étendue au-delà de cette date)_
+	- _Paramètres d’URL :_
+		- _`query`: mots-clés de recherche (défaut : `''`)_ 
+		- _`conversation_id`: rechercher uniquement les tweets d’un thread donné (défaut : `null`)_
+		- _`start_time`: rechercher les tweets à partir de cette date (défaut : `'2022-11-06T00:00:00Z'`)_
+		- _`end_time`: rechercher les tweets jusqu’à cette date (défaut : date du jour au format `'AAAA-MM-JJTHH:MM:SSZ'`)_
 	- _Réponse : tableau de tweets_
 - `POST /toot`: pouéter le thread sélectionné
 	- _Corps de la requête : tableau de tweets_
