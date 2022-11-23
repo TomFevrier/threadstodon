@@ -13,7 +13,7 @@ html, body {
 }
 
 html {
-	overflow: auto;
+	overflow: hidden;
 }
 
 body {
@@ -21,7 +21,7 @@ body {
 	font-family: 'Source Sans Pro', sans-serif;
 	line-height: 1.5;
 	position: fixed;
-	height: 100vh;
+	height: 100%;
 	overflow-y: scroll;
 }
 
