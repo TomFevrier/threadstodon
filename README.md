@@ -96,6 +96,6 @@ npm run dev
 
 ### Roadmap
 
+- possibilité d’étendre le nombre de tweets du thread (actuellement, uniquement 48h après la publication du premier tweet) ✅
 - gestion des erreurs plus poussée, niveau API et interface (snackbar, etc.)
-- possibilité d’étendre le nombre de tweets du thread (actuellement, uniquement 48h après la publication du premier tweet)
 - afficher les aperçus des liens

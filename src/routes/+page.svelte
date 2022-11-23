@@ -1,15 +1,22 @@
 <script>
 	import { page } from '$app/stores';
-	
-	import { Loader, TextInput, Tweet } from '$lib/components';
 
+	import { json } from 'd3-fetch';
+	import { utcFormat } from 'd3-time-format';
+	
+	import {
+		Loader,
+		MoreTweetsButton,
+		TextInput,
+		Tweet
+	} from '$lib/components';
 
 	$: ({ twitterUser, mastodonUser } = $page.data);
 
 	let query;
 	let tweets = null;
 	let isLoading = false;
-	let isThereMoreTweets = true;
+	let areThereMoreTweets = true;
 
 	const searchTweets = async ({ expand = false }) => {
 		if (!query || !query.trim()) return;
@@ -23,17 +30,23 @@
 		}
 
 		isLoading = true;
+
 		if (expand) {
-			const newTweets = await fetch(`/search?query=${query}&end_time=${tweets.at(-1).created_at}`).then((r) => r.json());
+			const endTime = utcFormat('%Y-%m-%dT%H:%M:%SZ')(new Date(tweets.at(-1).created_at));
+
+			const newTweets = await json(`/search?query=${query}&end_time=${endTime}`);
+
 			if (newTweets.length === 0) {
-				isThereMoreTweets = false;
+				areThereMoreTweets = false;
 			}
+
 			tweets = [...tweets, ...newTweets];
 		}
 		else {
-			isThereMoreTweets = true;
+			areThereMoreTweets = true;
 			tweets = [];
-			tweets = await fetch(`/search?query=${query}`).then((r) => r.json());
+
+			tweets = await json(`/search?query=${query}`);
 		}
 
 		isLoading = false;
@@ -91,11 +104,8 @@
 	{/if}
 	{#if isLoading}
 		<Loader />
-	{:else if tweets && tweets.length > 0 && isThereMoreTweets}
-		<button id='more-tweets' on:click={() => searchTweets({ expand: true })}>
-			<i class='fi fi-plus-a'></i>
-			Plus de tweets
-		</button>
+	{:else if tweets && tweets.length > 0 && areThereMoreTweets}
+		<MoreTweetsButton on:click={() => searchTweets({ expand: true })} />
 	{:else if tweets && tweets.length === 0}
 		<p class='info'>
 			Il n’y a rien à afficher.
@@ -275,20 +285,6 @@
 			font-size: 0.9rem;
 			color: $dimmed-text;
 			text-align: center;
-		}
-
-		#more-tweets {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			font-size: 0.9rem;
-			color: $dimmed-text;
-			margin: 1rem;
-
-			.fi {
-				font-size: 1.5rem;
-				margin: 2px;
-			}
 		}
 	}
 </style>

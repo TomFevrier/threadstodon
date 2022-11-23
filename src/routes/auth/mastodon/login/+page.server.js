@@ -22,8 +22,6 @@ export const login = async ({ request, url: { origin }, cookies }) => {
 		callbackUrl
 	);
 
-	console.log(clientId, clientSecret)
-
 	const url = await Mastodon.getAuthorizationUrl(
 		clientId,
 		clientSecret,

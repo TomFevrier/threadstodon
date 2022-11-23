@@ -10,6 +10,8 @@
 
 <style lang='scss'>
 	.spinner-wrapper {
+		display: block;
+
 		&.fixed {
 			position: fixed;
 			top: 50%;
@@ -24,6 +26,7 @@
 			width: 3rem;
 			height: 3rem;
 			margin: 1rem;
+			transform-origin: center;
 			animation: rotate $duration linear infinite;
 
 			@keyframes rotate {

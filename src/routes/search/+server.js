@@ -1,7 +1,8 @@
-import { json, redirect } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 
 import { TwitterApi } from 'twitter-api-v2';
 import latinize from 'latinize';
+import { utcFormat } from 'd3-time-format';
 
 import { attachMedia } from '$lib/utils';
 
@@ -9,36 +10,36 @@ import { attachMedia } from '$lib/utils';
 // Suppression des accents et normalisation des apostrophes
 const normalize = (str) => latinize(str).replace(/[\u02BC\u2019]/g, '\'');
 
-const noReplies = (t) => !t.in_reply_to_user_id;
-
-
 export const GET = async ({ cookies, url: { searchParams }, locals }) => {
 	const accessToken = cookies.get('twitter_access_token');
 
 	if (!accessToken) {
-		throw redirect(302, '/');
+		throw error(401);
 	}
 
-	const query = searchParams.get('query');
+	const query = searchParams.get('query') || '';
+	const keywords = query.split(' ');
+	const regex = new RegExp(keywords.map((keyword) => `(?=.*${normalize(keyword)})`).join(''), 'i');
+
+	const conversationId = searchParams.get('conversation_id') || null;
+	const startTime = searchParams.get('start_time')
+		|| utcFormat('%Y-%m-%dT%H:%M:%SZ')(new Date('2010-11-06'));
+	const endTime = searchParams.get('end_time')
+		|| utcFormat('%Y-%m-%dT%H:%M:%SZ')(new Date());
+
+	if (!query && !conversationId) {
+		throw error(400);
+	}
 
 	const user = locals.twitterUser;
 
 	const client = new TwitterApi(accessToken);
 
-
-	const keywords = query.split(' ');
-	const regex = new RegExp(keywords.map((keyword) => `(?=.*${normalize(keyword)})`).join(''), 'i');
-
-	const endTime = searchParams.get('end_time') || new Date().toISOString().slice(0, -5) + 'Z';
-
 	const tweets = [];
-
-	if (!query) {
-		return json(tweets);
-	}
 
 	let timeline = await client.v2.userTimeline(user.id, {
 		exclude: 'retweets,replies',
+		start_time: startTime,
 		end_time: endTime,
 		max_results: 100,
 		expansions: 'attachments.media_keys',
@@ -55,13 +56,19 @@ export const GET = async ({ cookies, url: { searchParams }, locals }) => {
 		*/
 		const filteredTweets = await Promise.all(timeline.tweets
 			.filter((t) => {
-				return noReplies(t) && regex.test(normalize(t.text))
+				// Dans le cas où on recherche les tweets suivants dans un thread
+				if (conversationId) {
+					return t.conversation_id === conversationId && t.in_reply_to_user_id === user.id;
+				}
+
+				// Dans le cas où on recherche les tweets correspondant à des mots-clés
+				return !t.in_reply_to_user_id && regex.test(normalize(t.text));
 			})
 			.map((t) => attachMedia(t, timeline.includes))
 		);
-		tweets.push(...filteredTweets)
+		tweets.push(...filteredTweets);
 		timeline = await timeline.next();
 	} while (!timeline.done && tweets.length < 5 && new Date().getTime() - start.getTime() < 5000);
 
-	return json(tweets.sort((a, b) => b.public_metrics.retweet_count - a.public_metrics.retweet_count));
+	return json(tweets);
 }

@@ -1,25 +1,53 @@
 <script>
 	import { page } from '$app/stores';
 
+	import { json } from 'd3-fetch';
+	import { utcFormat } from 'd3-time-format';
+	import { uniqBy } from 'lodash-es';
+
 	import { fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 
-	import { Tweet } from '$lib/components';
+	import { Loader, MoreTweetsButton, Tweet } from '$lib/components';
 
-	$: ({ thread, user } = $page.data);
+	const { user } = $page.data;
 
-	let threadURL;
+	let thread = $page.data.thread;
+	let isLoading = false;
+	let areThereMoreTweets = true;
 	let isTooting = false;
+	let threadURL;
+
+	const expandThread = async () => {
+		isLoading = true;
+
+		const conversationId = thread[0].conversation_id;
+		const startTime = utcFormat('%Y-%m-%dT%H:%M:%SZ')(new Date(thread.at(-1).created_at));
+
+		const newTweets = await json(`/search?conversation_id=${conversationId}&start_time=${startTime}`);
+
+		newTweets.forEach((tweet) => delete tweet.public_metrics);
+		
+		thread = uniqBy([
+			...thread,
+			...newTweets.sort((a, b) => a.id.localeCompare(b.id))
+		], 'id');
+
+		isLoading = false;
+		areThereMoreTweets = false;
+	}
 
 	const tootThread = async () => {
 		if (isTooting) return;
 
 		isTooting = true;
 
-		const { url } = await fetch('/toot', {
+		const res =  await fetch('/toot', {
 			method: 'POST',
 			body: JSON.stringify(thread)
-		}).then((r) => r.json());
+		});
+
+		const { url } = await res.json();
 
 		isTooting = false;
 		threadURL = url;
@@ -31,7 +59,7 @@
 		Tu peux cliquer sur un tweet pour éditer le texte, ou désactiver/réactiver un tweet en cliquant sur la photo de profil.
 	</li>
 	<li>
-		Quand tu te sens prêt⋅e, clique sur <b>Pouet !</b>
+		Quand tu te sens prêt⋅e, clique sur <b>Pouet&nbsp;!</b>
 	</li>
 </ul>
 <ul class='thread'>
@@ -47,6 +75,11 @@
 		</li>
 	{/each}
 </ul>
+{#if isLoading}
+	<Loader />
+{:else if areThereMoreTweets}
+	<MoreTweetsButton on:click={expandThread} />
+{/if}
 <div id='toot-btn-wrapper'>
 	<button on:click={tootThread} disabled={!!threadURL}>
 		{#if threadURL}
@@ -98,7 +131,6 @@
 		display: flex;
 		flex-direction: column;
 		position: relative;
-		margin-bottom: 2rem;
 	}
 
 	#toot-btn-wrapper {
