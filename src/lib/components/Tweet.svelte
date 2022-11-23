@@ -1,6 +1,4 @@
 <script>
-	import { page } from '$app/stores';
-
 	import { Editable } from '$lib/components';
 
 	let createdAt;
@@ -19,12 +17,12 @@
 	export let disableable = false;
 	export let disabled = false;
 
-	let active = false;
+	let focused = false;
 
 	const formatText = (text, entities = {}) => {
 		let content = text
-			.replace(/[\s\W]#([0-9]*)([A-Za-zÀ-ÖØ-öø-ÿ_]+)([0-9]*)/g, (tag) => `<span class='hashtag'>${tag}</span>`)
-			.replace(/[\s\W]@(\w+)/g, (username) => `<span class='mention'>${username}</span>`)
+			.replace(/\s#([0-9]*)([A-Za-zÀ-ÖØ-öø-ÿ_]+)([0-9]*)/g, (tag) => `<span class='hashtag'>${tag}</span>`)
+			.replace(/\s@(\w+)/g, (username) => `<span class='mention'>${username}</span>`)
 			.replace(/\n/g, '<br />');
 
 		const links = entities.urls ? entities.urls.filter((d) => !d.media_key) : [];
@@ -47,7 +45,7 @@
 	};
 </script>
 
-<div class='tweet' class:threaded class:first class:last class:active class:disabled>
+<div class='tweet' class:threaded class:first class:last class:focused class:disabled>
 	{#if user}
 		<header>
 			<figure class='portrait'>
@@ -78,7 +76,7 @@
 			<p class='text'>
 				<Editable
 					bind:content={text}
-					bind:editing={active}
+					bind:editing={focused}
 					formatter={(text) => formatText(text, entities)} />
 			</p>
 		{:else}
@@ -122,6 +120,8 @@
 	.tweet {
 		width: 100%;
 		padding: 1rem;
+		border-radius: 0.5rem;
+		outline: 1px dashed transparent;
 		position: relative;
 
 		&.threaded {
@@ -150,9 +150,14 @@
 			}
 		}
 
-		&:hover, &.active {
+		&:hover{
 			background-color: rgba(white, 0.1);
 			cursor: pointer;
+		}
+
+		&.focused {
+			background-color: rgba(white, 0.1);
+			outline-color: white;
 		}
 
 		&.disabled {

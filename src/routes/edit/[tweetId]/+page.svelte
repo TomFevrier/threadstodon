@@ -28,7 +28,7 @@
 
 <ul class='tutorial'>
 	<li>
-		Tu peux cliquer sur un tweet pour l’éditer, ou le désactiver/réactiver en cliquant sur la photo de profil.
+		Tu peux cliquer sur un tweet pour éditer le texte, ou désactiver/réactiver un tweet en cliquant sur la photo de profil.
 	</li>
 	<li>
 		Quand tu te sens prêt⋅e, clique sur <b>Pouet !</b>
