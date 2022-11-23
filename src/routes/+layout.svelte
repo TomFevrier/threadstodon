@@ -58,7 +58,6 @@
 	:global(body) {
 		color: white;
 		background-color: $background;
-		min-height: 100vh;
 	}
 
 	header {
@@ -176,6 +175,7 @@
 		#copyright {
 			font-size: 0.9rem;
 			color: $dimmed-text;
+			white-space: nowrap;
 		}
 
 		#socials {

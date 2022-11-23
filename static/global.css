@@ -12,12 +12,22 @@ html, body {
 	width: 100%;
 }
 
+html {
+	overflow: auto;
+}
+
 body {
 	margin: 0;
 	font-family: 'Source Sans Pro', sans-serif;
 	line-height: 1.5;
 	position: fixed;
+	height: 100vh;
 	overflow-y: scroll;
+}
+
+#sveltekit {
+	position: relative;
+	min-height: 100vh;
 }
 
 a {
