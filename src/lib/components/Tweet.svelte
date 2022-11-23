@@ -298,6 +298,7 @@
 				:global(a) {
 					text-decoration: underline;
 					font-weight: normal;
+					word-wrap: break-word;
 					cursor: pointer;
 				}
 			}

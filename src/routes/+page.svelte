@@ -253,12 +253,14 @@
 	}
 
 	.results {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
 
 		.tweet-list {
+			width: 100%;
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;
