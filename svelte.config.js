@@ -17,7 +17,6 @@ export default {
 	extensions: ['.svelte'],
 	kit: {
 		adapter: adapter(),
-		trailingSlash: 'always',
 		files: {
 			lib: path.resolve('./src/lib')
 		}
