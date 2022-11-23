@@ -27,7 +27,9 @@ body {
 
 #sveltekit {
 	position: relative;
+	min-height: 100dvh;
 	min-height: 100vh;
+	min-height: -webkit-fill-available;
 }
 
 a {
