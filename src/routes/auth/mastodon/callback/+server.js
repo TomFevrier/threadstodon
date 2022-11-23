@@ -11,8 +11,8 @@ export const GET = async ({ url: { searchParams, origin }, cookies }) => {
 	const instanceDomain = cookies.get('mastodon_domain');
 
 	const accessToken = await Mastodon.getAccessToken(
-		import.meta.env.VITE_MASTODON_CLIENT_ID,
-		import.meta.env.VITE_MASTODON_CLIENT_SECRET,
+		cookies.get('mastodon_client_id'),
+		cookies.get('mastodon_client_secret'),
 		code,
 		instanceDomain,
 		callbackUrl

@@ -17,21 +17,29 @@ Mastodon.revokeAccessToken = async (clientId, clientSecret, token, instanceDomai
 
 export const GET = async ({ cookies }) => {
 	await Mastodon.revokeAccessToken(
-		import.meta.env.VITE_MASTODON_CLIENT_ID,
-		import.meta.env.VITE_MASTODON_CLIENT_SECRET,
+		cookies.get('mastodon_client_id'),
+		cookies.get('mastodon_client_secret'),
 		cookies.get('mastodon_access_token'),
 		cookies.get('mastodon_domain')
 	);
+	
+	cookies.delete('mastodon_domain', {
+		path: '/'
+	});
+
+	cookies.delete('mastodon_client_id', {
+		path: '/'
+	});
+
+	cookies.delete('mastodon_client_secret', {
+		path: '/'
+	});
 
 	cookies.delete('mastodon_access_token', {
 		path: '/'
 	});
 
 	cookies.delete('mastodon_user_data', {
-		path: '/'
-	});
-
-	cookies.delete('mastodon_domain', {
 		path: '/'
 	});
 
