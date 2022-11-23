@@ -1,4 +1,4 @@
-# [Threadstodon](https://threadstodon.netlify.app/) 🐦 ➡️ 🐘
+# [Threadstodon](https://threadstodon.netlify.app/) 🐦🧵 ➡️ 🐘
 
 **Reposte facilement tes meilleurs fils Twitter sur Mastodon !**
 
