@@ -3,11 +3,28 @@
 
 	import { Loader } from '$lib/components';
 
-	$: ({ route } = $page);
+	$: ({ route, url } = $page);
+
+	const meta = {
+		title: 'Threadstodon',
+		description: 'Reposte facilement tes meilleurs fils Twitter sur Mastodon !',
+		image: '/assets/meta-card.png'
+	};
 </script>
 
 <svelte:head>
-	<title>Threadstodon</title>
+	<title>{meta.title}</title>
+	<meta name='description' content={meta.description} />
+	<meta property='og:type' content='website' />
+	<meta property='og:title' content={meta.title} />
+	<meta property='og:description' content={meta.description} />
+	<meta property='og:url' content={url.origin} />
+	<meta property='og:image' content={meta.image} />
+	<meta property='twitter:card' content='summary_large_image'>
+	<meta property='twitter:title' content={meta.title} />
+	<meta property='twitter:description' content={meta.description} />
+	<meta property='twitter:url' content={url.origin} />
+	<meta property='twitter:image' content={meta.image} />
 </svelte:head>
 
 <header>
