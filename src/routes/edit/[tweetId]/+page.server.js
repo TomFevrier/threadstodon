@@ -4,7 +4,7 @@ import { TwitterApi } from 'twitter-api-v2';
 import { utcFormat } from 'd3-time-format';
 import { uniqBy } from 'lodash-es';
 
-import { attachMedia } from '$lib/utils';
+import { attachMedia, typografix } from '$lib/utils';
 
 
 export const load = async ({ params, cookies, locals }) => {	
@@ -46,6 +46,7 @@ export const load = async ({ params, cookies, locals }) => {
 				&& (!t.in_reply_to_user_id || t.in_reply_to_user_id === user.id);
 		})
 		.sort((a, b) => a.id.localeCompare(b.id))
+		.map(typografix)
 		.map((t) => attachMedia(t, includes))
 	);
 

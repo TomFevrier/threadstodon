@@ -1,6 +1,7 @@
 import { TwitterApi } from 'twitter-api-v2';
 import { greatest } from 'd3-array';
 
+
 export const attachMedia = async (tweet, includes) => {
 	const appClient = new TwitterApi(import.meta.env.VITE_TWITTER_BEARER_TOKEN);
 
@@ -52,5 +53,15 @@ export const attachMedia = async (tweet, includes) => {
 				url: video.url
 			}
 		}))
+	};
+}
+
+
+export const typografix = (tweet) => {
+	return {
+		...tweet,
+		text: tweet.text
+			.replace(/«\s/g, '«\u00A0')
+			.replace(/\s»/g, '\u00A0»')
 	};
 }
